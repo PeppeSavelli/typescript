@@ -2,9 +2,9 @@ import express, { Request, Response } from "express";
 import { createClient } from "@vercel/postgres";
 
 const client = createClient(
-{connectionString: "postgres://default:I13qNChxetcJ@ep-young-dawn-a2mpjtzn.eu-central-1.aws.neon.tech:5432/verceldb"}
+{connectionString: "postgres://default:************@ep-empty-river-a49l56da.us-east-1.aws.neon.tech:5432"}
 );
-
+client.connect();
 const app = express();
 const server = express.json();
 const port = process.env.PORT || 3000;
@@ -28,7 +28,7 @@ app.delete("/posts/:idPost", function (req: Request, res: Response) {
     });
   });
   
-  app.put("/posts/:idPost", function (req: Request, res: Response) {
+app.put("/posts/:idPost", function (req: Request, res: Response) {
     return res.status(200).json({
       id : req.body.id,
       title: req.body.title,
@@ -36,7 +36,7 @@ app.delete("/posts/:idPost", function (req: Request, res: Response) {
     });
   });
   
-  app.post("/posts", function (req: Request, res: Response) {
+app.post("/posts", function (req: Request, res: Response) {
     return res.status(201).json({
       id: Math.random(),
       title: req.body.title,
