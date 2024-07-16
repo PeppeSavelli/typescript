@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import { createClient } from "@vercel/postgres";
 
 const client = createClient(
-{connectionString: "postgres://default:************@ep-empty-river-a49l56da.us-east-1.aws.neon.tech:5432"}
+{connectionString: "postgres://default:rtBNn8ipLK5A@ep-empty-river-a49l56da.us-east-1.aws.neon.tech:5432"}
 );
 client.connect();
 const app = express();
