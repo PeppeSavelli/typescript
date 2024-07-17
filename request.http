@@ -1,0 +1,4 @@
+## CREATE
+
+GET http://localhost/posts
+content-type:application/json

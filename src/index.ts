@@ -12,33 +12,35 @@ const baseURL = process.env.BASE_URL || "http://localhost";
 
 app.use(server);
 
-app.get("/posts", function (req: Request, res: Response) {
-  return res.status(200).json([]);
-});
-
-app.get("/posts/:idPost", async function (request: Request, response: Response) {
+app.get("/posts", async function (request: Request, response: Response) {
   await client.connect();
   const res = await client.query("SELECT * FROM posts");
   return response.status(200).json(res.rows);
 });
 
-app.delete("/posts/:idPost", function (req: Request, res: Response) {
-    return res.status(200).json({
-      message: `Post ${req.params.idPost} deleted`
-    });
-  });
-  
-app.put("/posts/:idPost", function (req: Request, res: Response) {
-    return res.status(200).json({id : req.body.id, title: req.body.title,content: req.body.content});
-  });
-  
-app.post("/posts", function (req: Request, res: Response) {
-    return res.status(201).json({
-      id: Math.random(),
-      title: req.body.title,
-      content: req.body.content
-    });
-  });
+app.get("/posts/:idPost", async function (request: Request, response: Response) {
+  await client.connect();
+  const res = await client.query(`SELECT * FROM posts WHERE id=$1`, [request.params.idPost]);
+  return response.status(200).json(res.rows);
+});
+
+app.delete("/posts/:idPost", async function (request: Request, response: Response) {
+  await client.connect();
+  const res = await client.query(`DELETE FROM posts WHERE id=$1`, [request.params.idPost]);
+  return response.status(200).json(res.rows);
+});
+
+app.put("/posts/:idPost", async function (request: Request, response: Response) {
+  await client.connect();
+  const res = await client.query(`UPDATE posts SET title=$1, content=$2 WHERE id=$3`, [request.body.title, request.body.content, request.body.idPost]);
+  return response.status(200).json(res.rows);
+});
+
+app.post("/posts", async function (request: Request, response: Response) {
+  await client.connect();
+  const res = await client.query(`UPDATE posts SET title=$1, content=$2 WHERE id=$3`, [request.body.title, request.body.content, request.body.idPost]);
+  return response.status(200).json(res.rows);
+});
 
 app.listen(port, () => {
         console.log(`server is running on http://localhost:${port}`);
