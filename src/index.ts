@@ -32,13 +32,13 @@ app.delete("/posts/:idPost", async function (request: Request, response: Respons
 
 app.put("/posts/:idPost", async function (request: Request, response: Response) {
   await client.connect();
-  const res = await client.query(`UPDATE posts SET title=$1, content=$2 WHERE id=$3`, [request.body.title, request.body.content, request.body.idPost]);
+  const res = await client.query(`UPDATE posts SET title=$1, content=$2 WHERE id=$3`, [request.body.title, request.body.content, request.params.idPost]);
   return response.status(200).json(res.rows);
 });
 
 app.post("/posts", async function (request: Request, response: Response) {
   await client.connect();
-  const res = await client.query(`UPDATE posts SET title=$1, content=$2 WHERE id=$3`, [request.body.title, request.body.content, request.body.idPost]);
+  const res = await client.query(`INSERT INTO posts (title, content) VALUES($1, $2)`, [request.body.title, request.body.content]);
   return response.status(200).json(res.rows);
 });
 
